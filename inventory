@@ -1,0 +1,10 @@
+[listener]
+127.0.0.1 node_receiver=true logstash_ip=127.0.0.1
+
+[micro]
+127.0.0.1
+
+[all:vars]
+ansible_ssh_private_key_file=/home/jrgns/.ssh/elasticsearch-benchmark.pem
+ansible_ssh_user=ubuntu
+node_receiver=false

@@ -1,0 +1,19 @@
+---
+- hosts: all
+  sudo: true
+  vars:
+    elasticsearch_heap_size: 512m
+    elasticsearch_number_of_replicas: 0
+    logstash_conf_files:
+      - benchmarking.conf
+  pre_tasks:
+    - apt: "package={{ item }} state=installed update_cache=yes cache_valid_time=3600"
+      with_items:
+        - openjdk-7-jre
+        - collectd
+  roles:
+    - elasticsearch
+    - { role: logstash, when: node_receiver }
+  tasks:
+    - template: dest=/etc/collectd/collectd.conf src=collectd.conf.j2
+    - service: name=collectd state=restarted
